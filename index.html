@@ -10,6 +10,9 @@
 			margin: 0;
 			padding: 0;
 		}
+		#main {
+			
+		}
 	</style>
 </head>
 <body>
@@ -17,5 +20,10 @@
 		<div id="console"></div>
 		<input id="input" type="text">
 	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			window.Game.init(document.getElementById('main'));
+		});
+	</script>
 </body>
 </html>
