@@ -1,10 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-var $__GameStrings__;
+var $__GameStrings__,
+    $__Mastermind__;
 var GS = ($__GameStrings__ = require("./GameStrings"), $__GameStrings__ && $__GameStrings__.__esModule && $__GameStrings__ || {default: $__GameStrings__}).default;
+var MM = ($__Mastermind__ = require("./Mastermind"), $__Mastermind__ && $__Mastermind__.__esModule && $__Mastermind__ || {default: $__Mastermind__}).default;
 var Game = ((function() {
   var $container,
-      $input;
+      $input,
+      Mastermind;
   function init(c, i) {
     $container = c;
     $input = i;
@@ -14,8 +17,11 @@ var Game = ((function() {
     $container.empty();
     addListeners();
     addMessage(GS.newGame);
+    Mastermind = new MM();
+    focus();
   }
   function addListeners() {
+    $(document.body).on('click', focus);
     $input.on('keypress', onInput);
   }
   function onInput(event) {
@@ -42,6 +48,9 @@ var Game = ((function() {
       }
     });
   }
+  function focus() {
+    $input.focus();
+  }
   return {init: init};
 }))();
 $(function() {
@@ -51,8 +60,8 @@ $(function() {
 });
 
 
-//# sourceURL=/home/jvalle/dev/textermind/src/game.js
-},{"./GameStrings":5}],2:[function(require,module,exports){
+//# sourceURL=/Users/jason/dev/textermind/src/game.js
+},{"./GameStrings":5,"./Mastermind":6}],2:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2917,8 +2926,31 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__default = {newGame: 'You awaken in a dark room.  Your leg is chained to a wall.  Attached to the chains are two wires, one leading to what appears to be a large car battery, and the other leading off to a panel with four (4) empty circles.  Next to the panel, you spot a stack of multi-colored circular objects.'};
+var $__default = {newGame: 'You awaken in a dark room.  Your leg is chained to a wall.  Attached to the chains are two wires, one leading to what appears to be a large car battery, and the other leading off to a panel with four (4) empty circles.  Next to the panel, you spot a stack of multi-colored circular objects.  What would you like to do?'};
 
 
-//# sourceURL=/home/jvalle/dev/textermind/src/GameStrings.js
+//# sourceURL=/Users/jason/dev/textermind/src/GameStrings.js
+},{}],6:[function(require,module,exports){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var colors = ['red', 'green', 'blue', 'yellow'];
+function MasterMind(opts) {
+  var options = opts || {};
+  this.noCols = options.noColumns || 4;
+  this.solution = [];
+  for (var i = 0; i < this.noCols; i++) {
+    this.solution.push(colors[Math.floor(Math.random() * this.noCols)]);
+  }
+  console.log(this.solution);
+}
+var $__default = MasterMind;
+;
+
+
+//# sourceURL=/Users/jason/dev/textermind/src/Mastermind.js
 },{}]},{},[1,4]);

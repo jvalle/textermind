@@ -1,7 +1,8 @@
 import GS from './GameStrings';
+import MM from './Mastermind';
 
 const Game = (() => {
-	var $container, $input;
+	var $container, $input, Mastermind;
 
     function init (c, i) {
     	$container = c;
@@ -16,9 +17,14 @@ const Game = (() => {
 		addListeners();
 
 		addMessage(GS.newGame);
+
+		Mastermind = new MM();
+
+		focus();
 	}
 
 	function addListeners () {
+		$(document.body).on('click', focus);
 		$input.on('keypress', onInput);
 	}
 
@@ -51,6 +57,10 @@ const Game = (() => {
 				$container.scrollTop($container.get(0).scrollHeight);
 			}
 		});
+	}
+
+	function focus () {
+		$input.focus();
 	}
 
     return {
