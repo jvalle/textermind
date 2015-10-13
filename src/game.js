@@ -2,15 +2,15 @@ import GS from './GameStrings';
 import MM from './Mastermind';
 
 const Game = (() => {
-	var $container, $input, Mastermind;
+	var $container, $input, last, Mastermind;
 	var globalActions = ['new game', 'really new game', 'help', 'status', 'look around'];
 
-    function init (c, i) {
-    	$container = c;
-    	$input = i;
+	function init (c, i) {
+		$container = c;
+		$input = i;
 
-    	newGame();
-    }
+		newGame();
+	}
 
 	function newGame () {
 		$container.empty();
@@ -24,7 +24,7 @@ const Game = (() => {
 
 	function addListeners () {
 		$(document.body).on('click', focus);
-		$input.on('keypress', onInput);
+		$input.on('keydown', onInput);
 	}
 
 	function onInput (event) {
@@ -36,7 +36,11 @@ const Game = (() => {
 			addMessage(msg, 'me', -100);
 
 			parseInput(msg);
-
+			last = msg;
+			$input.val('');
+		} else if (event.keyCode === 38 && last) {
+			$input.val(last);
+		} else if (event.keyCode === 40) {
 			$input.val('');
 		}
 	}
@@ -62,7 +66,7 @@ const Game = (() => {
 					break;
 				case 'look around':
 				case 'status':
-					addMessage(Mastermind.checkStatus() + ' Your Heath is ' + Mastermind.health + '.');
+					addMessage(Mastermind.checkStatus() + ' Your Health is <span class="red">' + Mastermind.health + '</span>.');
 					break;
 			}
 		} else if (text.indexOf('look at') > -1) {

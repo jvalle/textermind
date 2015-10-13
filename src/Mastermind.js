@@ -12,6 +12,7 @@ export default function Mastermind (opts) {
 	for (var i = 0; i < this.difficulty; i++) {
 		this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
 	}
+	console.log(this.solution);
 };
 
 Mastermind.prototype.makeGuess = function (guess) {
@@ -33,7 +34,7 @@ Mastermind.prototype.makeGuess = function (guess) {
 			}
 		} else {
 			// wrong guess
-			this.health -= 20;
+			this.health -= 10;
 		}
 	}.bind(this));
 
