@@ -40,7 +40,7 @@ gulp.task('js', function () {
             .bundle()
             .pipe(source(files.js[0]))
             .pipe(buffer())
-            // .pipe(uglify())
+            .pipe(uglify())
             .pipe(gulp.dest('./dist/'));
     };
 
