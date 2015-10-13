@@ -6,6 +6,7 @@ var gulp = require('gulp'),
 var files = {
     html   : ['./index.html'],
     js     : ['./src/game.js', './src/**/*'],
+    libs   : ['./libs/**/*']
 };
 
 gulp.task('html', function () {
@@ -46,6 +47,11 @@ gulp.task('js', function () {
     return bundle();
 });
 
+gulp.task('libs', function () {
+    gulp.src(files.libs)
+        .pipe(gulp.dest('./dist/libs/'))
+});
+
 gulp.task('compile', ['html']);
 
-gulp.task('default', ['compile', 'js']);
+gulp.task('default', ['compile', 'libs', 'js']);
