@@ -5,7 +5,6 @@
 	<title>Textermind</title>
 	<style>
 		@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
-
 		html,
 		body {
 			background: #000;
@@ -24,6 +23,12 @@
 		#console {
 			display: inline-block;
 			margin: 25px;
+			max-height: 450px;
+			overflow-y: auto;
+		}
+		#console span {
+			display: block;
+			margin: 10px 0;
 		}
 		.typed-cursor {
 			opacity: 1;

@@ -3,16 +3,44 @@
 var $__GameStrings__;
 var GS = ($__GameStrings__ = require("./GameStrings"), $__GameStrings__ && $__GameStrings__.__esModule && $__GameStrings__ || {default: $__GameStrings__}).default;
 var Game = ((function() {
-  var container,
-      input;
+  var $container,
+      $input;
   function init(c, i) {
-    container = c;
-    input = i;
+    $container = c;
+    $input = i;
     newGame();
   }
   function newGame() {
-    container.empty();
-    container.typed({strings: GS.newGame});
+    $container.empty();
+    addListeners();
+    addMessage(GS.newGame);
+  }
+  function addListeners() {
+    $input.on('keypress', onInput);
+  }
+  function onInput(event) {
+    if (event.keyCode === 13) {
+      var msg = $input.val();
+      if (!msg)
+        return;
+      addMessage(msg, 'me', -100);
+      $input.val('');
+    }
+  }
+  function addMessage(message, modifier, speed) {
+    var $node = $('<span class="message" />');
+    var ts = speed || 0;
+    if (modifier)
+      $node.addClass(modifier);
+    $container.append($node);
+    $node.typed({
+      strings: [message],
+      showCursor: false,
+      typeSpeed: ts,
+      callback: function() {
+        $container.scrollTop($container.get(0).scrollHeight);
+      }
+    });
   }
   return {init: init};
 }))();
@@ -2889,7 +2917,7 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__default = {newGame: ['You awaken in a dark room...']};
+var $__default = {newGame: 'You awaken in a dark room.  Your leg is chained to a wall.  Attached to the chains are two wires, one leading to what appears to be a large car battery, and the other leading off to a panel with four (4) empty circles.  Next to the panel, you spot a stack of multi-colored circular objects.'};
 
 
 //# sourceURL=/home/jvalle/dev/textermind/src/GameStrings.js
