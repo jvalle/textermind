@@ -71,8 +71,13 @@ const Game = (() => {
 			strings: [message],
 			showCursor: false,
 			typeSpeed: ts,
+			preStringTyped: function () {
+				$input.prop('disabled', true);
+			},
 			callback: function () {
 				$container.scrollTop($container.get(0).scrollHeight);
+				$input.prop('disabled', false);
+				focus();
 			}
 		});
 	}
