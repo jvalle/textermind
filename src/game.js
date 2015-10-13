@@ -95,7 +95,7 @@ const Game = (() => {
 
 	function addMessage (message, modifier, speed) {
 		var $node = $('<span class="message" />');
-		var ts = speed || -10;
+		var ts = speed || -75;
 
 		if (modifier) $node.addClass(modifier);
 
