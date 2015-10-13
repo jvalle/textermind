@@ -42,7 +42,7 @@ Mastermind.prototype.makeGuess = function (guess) {
 					break;
 				}
 			}
-			this.health -= 10;
+			this.health -= 5;
 		}
 	}
 
