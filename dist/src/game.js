@@ -40,7 +40,11 @@ var Game = ((function() {
     if (globalActions.indexOf(text) > -1) {
       switch (text) {
         case 'new game':
-          addMessage(GS.aNewGame);
+          if (Mastermind.rightPosition === 4) {
+            newGame();
+          } else {
+            addMessage(GS.aNewGame);
+          }
           break;
         case 'really new game':
           addMessage(GS.reallyNewGame);
@@ -83,7 +87,7 @@ var Game = ((function() {
   }
   function addMessage(message, modifier, speed) {
     var $node = $('<span class="message" />');
-    var ts = speed || -100;
+    var ts = speed || -10;
     if (modifier)
       $node.addClass(modifier);
     $container.append($node);
@@ -2987,11 +2991,12 @@ var $__default = {
   noneGuessed: 'Well, as mentioned, it appears you\'re attached to some kind of battery, so that\'s never good.  Why don\'t you take a closer <em>look at</em> something, or perhaps ask for <em>help</em>.',
   unrecognizedCommand: 'Sorry, that isn\'t recognized as a valid command.  Try something else, or ask for <em>help</em>.',
   lookAtBoard: 'It\'s a long board with electrical wiring.  There are four empty slots in front of you.  Perhaps you could find something to <em>place</em> in them.  It appears to extend indefinitely into the darkness.',
-  lookAtDisks: 'A pile of multi-colored disks.  In the dim light you can make out <span class="red">red</span>, <span class="green">green</span>, <span class="blue">blue</span>, <span class="yellow">yellow</span>, <span class="purple">purple</span>, <span class="white">white</span>, and <span class="black">black</black>.  I might try to <em>place</em> four of them in sequence.',
+  lookAtDisks: 'A pile of multi-colored disks.  In the dim light you can make out <span class="red">red</span>, <span class="green">green</span>, <span class="blue">blue</span>, <span class="yellow">yellow</span>, <span class="purple">purple</span>, <span class="white">white</span>, and <span class="black">black</black>.  I might try to <em>place</em> four of them in sequence, but what do I know, I\'m just the internet.',
+  lookAtBattery: 'An old, large car battery. It is connected to the chains that are connected to you, like something out of god damn Saw 3.  Let\'s hope it doesn\'t come to this.',
   notSomethingToLookAt: 'That isn\'t something to look at.  Try harder.',
   smartAss: 'Don\'t be a smart ass.',
-  placeFour: 'Try placing all four guesses at the same time, separated by a space. You know, if you want.',
-  lookAtBattery: 'An old, large car battery. It is connected to the chains that are connected to you, like something out of god damn Saw 3.  Let\'s hope it doesn\'t come to this.'
+  placeFour: 'Try placing all four guesses at the same time, separated by a space. You know, if you want, or whatever.',
+  youWin: 'The battery sparks faintly, and the board begins to glow. The chains unlock in dramatic fashion and you are free to go!  Nice job, you\'ve beaten the age-old, timeless classic, Textermind.  Congratulations.  <em>New game</em> will start a new game for you.'
 };
 
 
@@ -3011,35 +3016,40 @@ function Mastermind(opts) {
   this.colors = ['red', 'green', 'blue', 'yellow', 'purple', 'white', 'black'];
   this.difficulty = options.difficulty || 4;
   this.solution = [];
-  this.gameState = 0;
+  this.rightPosition = 0;
+  this.rightColor = 0;
   this.health = 100;
   for (var i = 0; i < this.difficulty; i++) {
     this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
   }
-  console.log(this.solution);
 }
 var $__default = Mastermind;
 ;
 Mastermind.prototype.makeGuess = function(guess) {
   var guesses = guess.split(' ');
-  if (guesses.length !== 4) {
+  if (guesses.length !== 4)
     return GS.placeFour;
-  }
+  this.rightPosition = 0;
+  this.rightColor = 0;
   guesses.forEach(function(disk, i) {
     if (this.solution.indexOf(disk) > -1) {
-      if (this.solution.indexOf(disk) === i) {
-        console.log('one right, right position');
+      if (this.solution[i] === disk) {
+        this.rightPosition++;
       } else {
-        console.log('one right, wrong position');
+        this.rightColor++;
       }
     } else {
-      console.log('we got one wrong');
       this.health -= 20;
     }
   }.bind(this));
+  if (this.rightPosition === 4) {
+    return GS.youWin;
+  } else {
+    return 'The battery sparks and you are electrocuted violently shaking you from head to toe.  You pee yourself a little. Looks like you guessed ' + this.rightColor + ' correct, with ' + this.rightPosition + ' being in the correct position.  Your health has been reduced to ' + this.health + ' from the shock.';
+  }
 };
 Mastermind.prototype.checkStatus = function() {
-  switch (this.gameState) {
+  switch (this.rightPosition) {
     case 0:
       return GS.noneGuessed;
   }

@@ -47,7 +47,11 @@ const Game = (() => {
 		if (globalActions.indexOf(text) > -1) {
 			switch (text) {
 				case 'new game':
-					addMessage(GS.aNewGame);
+					if (Mastermind.rightPosition === 4) {
+						newGame();
+					} else {
+						addMessage(GS.aNewGame);
+					}
 					break;
 				case 'really new game':
 					addMessage(GS.reallyNewGame);
@@ -91,7 +95,7 @@ const Game = (() => {
 
 	function addMessage (message, modifier, speed) {
 		var $node = $('<span class="message" />');
-		var ts = speed || -100;
+		var ts = speed || -10;
 
 		if (modifier) $node.addClass(modifier);
 
