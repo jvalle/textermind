@@ -11,6 +11,10 @@ export default {
 	notSomethingToLookAt: 'That isn\'t something to look at.  Try harder.',
 	smartAss: 'Don\'t be a smart ass.',
 	placeFour: 'Try placing all four guesses at the same time, separated by a space. You know, if you want, or whatever.',
+	guessedOne: 'The battery ejects sparks everywhere and sends a hot current directly to your bones. You pee a little, but hey, looks like you got 1 in the correct position.',
+	guessedTwo: 'The battery sparks and you are electrocuted violently shaking you from head to toe. You have piss all over yourself, what a sloppy mess. Good news is, you\'re at least halfway there with 2 guesses in the correct positions.',
+	guessedThree: ['Congratulations!', 'Just kidding, the battery sparks up even more violently and you feel current running through your very core and you almost lose consciousness. It smells like burnt piss. That\'s 3 guesses in the correct positions. God help you with one more to go...'],
+	gameOver: ['The battery does nothing.', 'Oh wait, it ignites sending current through your limbs and the last thing you feel is the ceiling of your head being blown off in a bloody, electrical mess. If you can bring yourself to start a <em>new game</em>, maybe you\'ll fare better next time.'],
 	youWin: 'The battery sparks faintly, and the board begins to glow. The chains unlock in dramatic fashion and you are free to go!  Nice job, you\'ve beaten the age-old, timeless classic, Textermind.  Congratulations.  <em>New game</em> will start a new game for you.'
 };
 

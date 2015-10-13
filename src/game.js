@@ -51,7 +51,7 @@ const Game = (() => {
 		if (globalActions.indexOf(text) > -1) {
 			switch (text) {
 				case 'new game':
-					if (Mastermind.rightPosition === 4) {
+					if (Mastermind.rightPosition === 4 || Mastermind.health < 1) {
 						newGame();
 					} else {
 						addMessage(GS.aNewGame);
@@ -100,12 +100,19 @@ const Game = (() => {
 	function addMessage (message, modifier, speed) {
 		var $node = $('<span class="message" />');
 		var ts = speed || -75;
+		var msg;
+
+		if (message instanceof Array) {
+			msg = message;
+		} else {
+			msg = [message];
+		}
 
 		if (modifier) $node.addClass(modifier);
 
 		$container.append($node);
 		$node.typed({
-			strings: [message],
+			strings: msg,
 			showCursor: false,
 			typeSpeed: ts,
 			preStringTyped: function () {

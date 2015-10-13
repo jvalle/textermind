@@ -12,37 +12,56 @@ export default function Mastermind (opts) {
 	for (var i = 0; i < this.difficulty; i++) {
 		this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
 	}
-	console.log(this.solution);
 };
 
 Mastermind.prototype.makeGuess = function (guess) {
 	var guesses = guess.split(' ');
+	var solutionCopy = this.solution.slice();
 
 	if (guesses.length !== 4) return GS.placeFour;
 
 	this.rightPosition = 0;
 	this.rightColor = 0;
 
-	guesses.forEach(function (disk, i) {
-		if (this.solution.indexOf(disk) > -1) {
-			if (this.solution[i] === disk) {
-				// we got one right, in the right position
-				this.rightPosition++;
-			} else {
-				// we got one right, in any position
-				this.rightColor++;
+	// check for exact matches first
+	for (var i = 0; i < this.solution.length; i++) {
+		if (guesses[i] === solutionCopy[i]) {
+			guesses[i] = null;
+			solutionCopy[i] = null;
+			this.rightPosition++;
+		}
+	}
+
+	// then look for remaining correct colors
+	for (var i = 0; i < this.solution.length; i++) {
+		if (guesses[i]) {
+			for (var j = 0; j < this.solution.length; j++) {
+				if (guesses[i] === solutionCopy[j]) {
+					this.rightColor++;
+					solutionCopy[j] = null;
+					break;
+				}
 			}
-		} else {
-			// wrong guess
 			this.health -= 10;
 		}
-	}.bind(this));
+	}
 
 	if (this.rightPosition === 4) {
 		return GS.youWin;
 	} else {
-		// todo, different message based on accuracy of guesses
-		return 'The battery sparks and you are electrocuted violently shaking you from head to toe.  You pee yourself a little. Looks like you guessed ' + this.rightColor + ' correct, with ' + this.rightPosition + ' being in the correct position.  Your health has been reduced to ' + this.health + ' from the shock.';
+		if (this.health < 1) {
+			return GS.gameOver;
+		}
+		switch (this.rightPosition) {
+			case 1:
+				return GS.guessedOne + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
+			case 2:
+				return GS.guessedTwo + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
+			case 3:
+				return [GS.guessedThree[0], GS.guessedThree[1] + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.'];
+			default:
+				return 'The battery lights up and sparks fly as you\'re shocked so violently that your hair burns and you take a full piss into your pants. You managed to get none in the correct position. In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
+		}
 	}
 };
 
