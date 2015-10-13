@@ -12,25 +12,31 @@
 			font-size: 100%;
 			margin: 0;
 			padding: 0;
+			text-align: center;
+		}
+		img {
+			margin-top: 15px;
 		}
 		#main {
 			background:#f8f8f8;
 			height: 500px;
-			margin: 50px auto;
+			margin: 0px auto;
 			position: relative;
+			text-align: left;
 			width: 50%;
 		}
 		#console {
 			display: inline-block;
 			margin: 25px;
-			max-height: 450px;
+			max-height: 443px;
 			overflow-y: auto;
 		}
-		#console span {
+		#console .message {
 			display: block;
 			margin: 10px 0;
 		}
-		#console span.me {
+		#console .me {
+			color: green;
 			font-style: italic;
 		}
 		#input {
@@ -41,9 +47,33 @@
 			position: absolute;
 			width: 100%;
 		}
+		em {
+			color: #12B2B5;
+			font-weight: bold;
+		}
+		.red {
+			color: red;
+		}
+		.blue {
+			color: blue;
+		}
+		.green {
+			color: green;
+		}
+		.purple {
+			color: purple;
+		}
+		.yellow {
+			color: #BAC534;
+		}
+		.white {
+			background: black;
+			color: white;
+		}
 	</style>
 </head>
 <body>
+	<img src="textermind-logo.png" alt="">
 	<div id="main">
 		<div id="console"></div>
 		<input id="input" type="text">

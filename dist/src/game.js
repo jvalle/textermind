@@ -8,7 +8,7 @@ var Game = ((function() {
   var $container,
       $input,
       Mastermind;
-  var globalActions = ['new game', 'help', 'status'];
+  var globalActions = ['new game', 'really new game', 'help', 'status'];
   function init(c, i) {
     $container = c;
     $input = i;
@@ -16,9 +16,9 @@ var Game = ((function() {
   }
   function newGame() {
     $container.empty();
-    addListeners();
-    addMessage(GS.newGame);
     Mastermind = new MM();
+    addMessage(GS.newGame);
+    addListeners();
     focus();
   }
   function addListeners() {
@@ -40,6 +40,11 @@ var Game = ((function() {
     if (globalActions.indexOf(text) > -1) {
       switch (text) {
         case 'new game':
+          addMessage(GS.aNewGame);
+          break;
+        case 'really new game':
+          addMessage(GS.reallyNewGame);
+          setTimeout(newGame, 8000);
           break;
         case 'help':
           addMessage(GS.helpText);
@@ -48,11 +53,30 @@ var Game = ((function() {
           addMessage(Mastermind.checkStatus());
           break;
       }
+    } else if (text.indexOf('look at') > -1) {
+      var item = text.replace('look at', '').trim();
+      switch (item) {
+        case 'board':
+          addMessage(GS.lookAtBoard);
+          break;
+        case 'battery':
+          addMessage(GS.lookAtBattery);
+          break;
+        case 'disk':
+        case 'disks':
+          addMessage(GS.lookAtDisks);
+          break;
+        default:
+          addMessage(GS.notSomethingToLookAt);
+          break;
+      }
+    } else {
+      addMessage(GS.unrecognizedCommand);
     }
   }
   function addMessage(message, modifier, speed) {
     var $node = $('<span class="message" />');
-    var ts = speed || -10;
+    var ts = speed || -100;
     if (modifier)
       $node.addClass(modifier);
     $container.append($node);
@@ -2951,7 +2975,14 @@ Object.defineProperties(exports, {
 var $__default = {
   newGame: 'You awaken in a dark room, hungover.<br>Your leg is chained to a wall.<br>Attached to the chains are two thick wires, one leading to what appears to be a large car <em>battery</em>, and the other leading to a <em>board</em> with four (4) empty circles.<br>Next to the board, you spot a stack of multi-colored circular <em>disks</em>.<br>Perhaps you would like to take a closer <em>look at</em> something?',
   helpText: 'Having some trouble?  Try a couple of these commands: <em>status</em>, <em>look at</em> [something], or, if you\'re really bad, try starting a <em>new game</em>.',
-  noneGuessed: 'Well, as mentioned, it appears you\'re attached to some kind of battery, so that\'s never good.  Why don\'t you take a closer <em>look at</em> something, or perhaps ask for <em>help</em>.'
+  aNewGame: 'If you\'re sure you can\'t take it, and want to start a new game, say <em>really new game</em>.',
+  reallyNewGame: 'The battery sparks and ignites the entire room.  You burn slowly in a firey, sad death.  Get better at stupid logic games for your next life...',
+  noneGuessed: 'Well, as mentioned, it appears you\'re attached to some kind of battery, so that\'s never good.  Why don\'t you take a closer <em>look at</em> something, or perhaps ask for <em>help</em>.',
+  unrecognizedCommand: 'Sorry, that isn\'t recognized as a valid command.  Try something else, or ask for <em>help</em>.',
+  lookAtBoard: 'It\'s a long board with electrical wiring.  There are four empty slots in front of you.  Perhaps you could find something to <em>place</em> in them.  It appears to extend indefinitely into the darkness.',
+  lookAtDisks: 'A pile of multi-colored disks.  In the dim light you can make out <span class="red">red</span>, <span class="green">green</span>, <span class="blue">blue</span>, <span class="yellow">yellow</span>, <span class="purple">purple</span>, <span class="white">white</span>, and <span class="black">black</black>.  I might try to <em>place</em> four of them in sequence.',
+  notSomethingToLookAt: 'That isn\'t something to look at.  Try harder.',
+  lookAtBattery: 'An old, large car battery. It is connected to the chains that are connected to you, like something out of god damn Saw 3.  Let\'s hope it doesn\'t come to this.'
 };
 
 

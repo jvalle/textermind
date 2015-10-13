@@ -3,7 +3,7 @@ import MM from './Mastermind';
 
 const Game = (() => {
 	var $container, $input, Mastermind;
-	var globalActions = ['new game', 'help', 'status'];
+	var globalActions = ['new game', 'really new game', 'help', 'status'];
 
     function init (c, i) {
     	$container = c;
@@ -15,12 +15,10 @@ const Game = (() => {
 	function newGame () {
 		$container.empty();
 
-		addListeners();
-
+		Mastermind = new MM();
 		addMessage(GS.newGame);
 
-		Mastermind = new MM();
-
+		addListeners();
 		focus();
 	}
 
@@ -49,6 +47,11 @@ const Game = (() => {
 		if (globalActions.indexOf(text) > -1) {
 			switch (text) {
 				case 'new game':
+					addMessage(GS.aNewGame);
+					break;
+				case 'really new game':
+					addMessage(GS.reallyNewGame);
+					setTimeout(newGame, 8000);
 					break;
 				case 'help':
 					addMessage(GS.helpText);
@@ -57,12 +60,31 @@ const Game = (() => {
 					addMessage(Mastermind.checkStatus());
 					break;
 			}
+		} else if (text.indexOf('look at') > -1) {
+			var item = text.replace('look at', '').trim();
+			switch (item) {
+				case 'board':
+					addMessage(GS.lookAtBoard);
+					break;
+				case 'battery':
+					addMessage(GS.lookAtBattery);
+					break;
+				case 'disk':
+				case 'disks':
+					addMessage(GS.lookAtDisks);
+					break;
+				default:
+					addMessage(GS.notSomethingToLookAt);
+					break;
+			}
+		} else {
+			addMessage(GS.unrecognizedCommand);
 		}
 	}
 
 	function addMessage (message, modifier, speed) {
 		var $node = $('<span class="message" />');
-		var ts = speed || -10;
+		var ts = speed || -100;
 
 		if (modifier) $node.addClass(modifier);
 
