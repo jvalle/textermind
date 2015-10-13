@@ -47,6 +47,9 @@
 			position: absolute;
 			width: 100%;
 		}
+		#input:focus {
+			outline-color: #12B2B5;
+		}
 		em {
 			color: #12B2B5;
 			font-weight: bold;
@@ -70,6 +73,11 @@
 			background: black;
 			color: white;
 		}
+		.help-text {
+			color: white;
+			font-size: 10px;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
@@ -78,6 +86,7 @@
 		<div id="console"></div>
 		<input id="input" type="text">
 	</div>
+	<p class="help-text">If you get stuck, try typing <em>help</em>.</p>
 
 	<script src='libs/jquery-2.1.4.min.js'></script>
 	<script src='libs/typed.min.js'></script>

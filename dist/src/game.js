@@ -8,7 +8,7 @@ var Game = ((function() {
   var $container,
       $input,
       Mastermind;
-  var globalActions = ['new game', 'really new game', 'help', 'status'];
+  var globalActions = ['new game', 'really new game', 'help', 'status', 'look around'];
   function init(c, i) {
     $container = c;
     $input = i;
@@ -49,8 +49,9 @@ var Game = ((function() {
         case 'help':
           addMessage(GS.helpText);
           break;
+        case 'look around':
         case 'status':
-          addMessage(Mastermind.checkStatus());
+          addMessage(Mastermind.checkStatus() + ' Your Heath is ' + Mastermind.health + '.');
           break;
       }
     } else if (text.indexOf('look at') > -1) {
@@ -66,10 +67,16 @@ var Game = ((function() {
         case 'disks':
           addMessage(GS.lookAtDisks);
           break;
+        case 'something':
+          addMessage(GS.smartAss);
+          break;
         default:
           addMessage(GS.notSomethingToLookAt);
           break;
       }
+    } else if (text.indexOf('place') > -1) {
+      var guess = text.replace('place', '').trim();
+      addMessage(Mastermind.makeGuess(guess));
     } else {
       addMessage(GS.unrecognizedCommand);
     }
@@ -2982,6 +2989,8 @@ var $__default = {
   lookAtBoard: 'It\'s a long board with electrical wiring.  There are four empty slots in front of you.  Perhaps you could find something to <em>place</em> in them.  It appears to extend indefinitely into the darkness.',
   lookAtDisks: 'A pile of multi-colored disks.  In the dim light you can make out <span class="red">red</span>, <span class="green">green</span>, <span class="blue">blue</span>, <span class="yellow">yellow</span>, <span class="purple">purple</span>, <span class="white">white</span>, and <span class="black">black</black>.  I might try to <em>place</em> four of them in sequence.',
   notSomethingToLookAt: 'That isn\'t something to look at.  Try harder.',
+  smartAss: 'Don\'t be a smart ass.',
+  placeFour: 'Try placing all four guesses at the same time, separated by a space. You know, if you want.',
   lookAtBattery: 'An old, large car battery. It is connected to the chains that are connected to you, like something out of god damn Saw 3.  Let\'s hope it doesn\'t come to this.'
 };
 
@@ -3003,6 +3012,7 @@ function Mastermind(opts) {
   this.difficulty = options.difficulty || 4;
   this.solution = [];
   this.gameState = 0;
+  this.health = 100;
   for (var i = 0; i < this.difficulty; i++) {
     this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
   }
@@ -3010,7 +3020,24 @@ function Mastermind(opts) {
 }
 var $__default = Mastermind;
 ;
-Mastermind.prototype.makeGuess = function(guess) {};
+Mastermind.prototype.makeGuess = function(guess) {
+  var guesses = guess.split(' ');
+  if (guesses.length !== 4) {
+    return GS.placeFour;
+  }
+  guesses.forEach(function(disk, i) {
+    if (this.solution.indexOf(disk) > -1) {
+      if (this.solution.indexOf(disk) === i) {
+        console.log('one right, right position');
+      } else {
+        console.log('one right, wrong position');
+      }
+    } else {
+      console.log('we got one wrong');
+      this.health -= 20;
+    }
+  }.bind(this));
+};
 Mastermind.prototype.checkStatus = function() {
   switch (this.gameState) {
     case 0:

@@ -8,5 +8,7 @@ export default {
 	lookAtBoard: 'It\'s a long board with electrical wiring.  There are four empty slots in front of you.  Perhaps you could find something to <em>place</em> in them.  It appears to extend indefinitely into the darkness.',
 	lookAtDisks: 'A pile of multi-colored disks.  In the dim light you can make out <span class="red">red</span>, <span class="green">green</span>, <span class="blue">blue</span>, <span class="yellow">yellow</span>, <span class="purple">purple</span>, <span class="white">white</span>, and <span class="black">black</black>.  I might try to <em>place</em> four of them in sequence.',
 	notSomethingToLookAt: 'That isn\'t something to look at.  Try harder.',
+	smartAss: 'Don\'t be a smart ass.',
+	placeFour: 'Try placing all four guesses at the same time, separated by a space. You know, if you want.',
 	lookAtBattery: 'An old, large car battery. It is connected to the chains that are connected to you, like something out of god damn Saw 3.  Let\'s hope it doesn\'t come to this.'
 };

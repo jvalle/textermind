@@ -3,7 +3,7 @@ import MM from './Mastermind';
 
 const Game = (() => {
 	var $container, $input, Mastermind;
-	var globalActions = ['new game', 'really new game', 'help', 'status'];
+	var globalActions = ['new game', 'really new game', 'help', 'status', 'look around'];
 
     function init (c, i) {
     	$container = c;
@@ -56,8 +56,9 @@ const Game = (() => {
 				case 'help':
 					addMessage(GS.helpText);
 					break;
+				case 'look around':
 				case 'status':
-					addMessage(Mastermind.checkStatus());
+					addMessage(Mastermind.checkStatus() + ' Your Heath is ' + Mastermind.health + '.');
 					break;
 			}
 		} else if (text.indexOf('look at') > -1) {
@@ -73,10 +74,16 @@ const Game = (() => {
 				case 'disks':
 					addMessage(GS.lookAtDisks);
 					break;
+				case 'something':
+					addMessage(GS.smartAss);
+					break;
 				default:
 					addMessage(GS.notSomethingToLookAt);
 					break;
 			}
+		} else if (text.indexOf('place') > -1) {
+			var guess = text.replace('place', '').trim();
+			addMessage(Mastermind.makeGuess(guess));
 		} else {
 			addMessage(GS.unrecognizedCommand);
 		}
