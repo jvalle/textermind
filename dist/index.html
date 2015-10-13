@@ -4,14 +4,54 @@
 	<meta charset="UTF-8">
 	<title>Textermind</title>
 	<style>
+		@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
+
 		html,
 		body {
 			background: #000;
+			font-family: "Ubuntu", sans-serif;
+			font-size: 100%;
 			margin: 0;
 			padding: 0;
 		}
 		#main {
-			
+			background:#f8f8f8;
+			height: 500px;
+			margin: 50px auto;
+			position: relative;
+			width: 50%;
+		}
+		#console {
+			display: inline-block;
+			margin: 25px;
+		}
+		.typed-cursor {
+			opacity: 1;
+			-webkit-animation: blink 0.7s infinite;
+			-moz-animation: blink 0.7s infinite;
+			animation: blink 0.7s infinite;
+		}
+		#input {
+			bottom: 0;
+			box-sizing: border-box;
+			left: 0;
+			position: absolute;
+			width: 100%;
+		}
+		@keyframes blink{
+			0% { opacity:1; }
+			50% { opacity:0; }
+			100% { opacity:1; }
+		}
+		@-webkit-keyframes blink{
+			0% { opacity:1; }
+			50% { opacity:0; }
+			100% { opacity:1; }
+		}
+		@-moz-keyframes blink{
+			0% { opacity:1; }
+			50% { opacity:0; }
+			100% { opacity:1; }
 		}
 	</style>
 </head>
@@ -20,11 +60,9 @@
 		<div id="console"></div>
 		<input id="input" type="text">
 	</div>
+
+	<script src='libs/jquery-2.1.4.min.js'></script>
 	<script src='libs/typed.min.js'></script>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			window.Game.init(document.getElementById('main'));
-		});
-	</script>
+	<script src='src/game.js'></script>
 </body>
 </html>

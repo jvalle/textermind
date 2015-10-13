@@ -1,20 +1,30 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-var Game = ((function(opts) {
-  var options = opts || {};
-  function init(canvas) {}
+var $__GameStrings__;
+var GS = ($__GameStrings__ = require("./GameStrings"), $__GameStrings__ && $__GameStrings__.__esModule && $__GameStrings__ || {default: $__GameStrings__}).default;
+var Game = ((function() {
+  var container,
+      input;
+  function init(c, i) {
+    container = c;
+    input = i;
+    newGame();
+  }
   function newGame() {
-    while (c.firstChild) {
-      c.removeChild(c.firstChild);
-    }
+    container.empty();
+    container.typed({strings: GS.newGame});
   }
   return {init: init};
 }))();
-window.Game = Game;
+$(function() {
+  var $cont = $('#console');
+  var $input = $('#input');
+  Game.init($cont, $input);
+});
 
 
 //# sourceURL=/home/jvalle/dev/textermind/src/game.js
-},{}],2:[function(require,module,exports){
+},{"./GameStrings":5}],2:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2871,4 +2881,16 @@ System.registerModule("traceur-runtime@0.0.79/src/runtime/polyfills/polyfills.js
 System.get("traceur-runtime@0.0.79/src/runtime/polyfills/polyfills.js" + '');
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":3,"path":2}]},{},[1,4]);
+},{"_process":3,"path":2}],5:[function(require,module,exports){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var $__default = {newGame: ['You awaken in a dark room...']};
+
+
+//# sourceURL=/home/jvalle/dev/textermind/src/GameStrings.js
+},{}]},{},[1,4]);

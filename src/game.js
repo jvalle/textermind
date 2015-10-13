@@ -1,19 +1,22 @@
+import GS from './GameStrings';
 
+const Game = (() => {
+	var container, input;
 
-const Game = ((opts) => {
-    const options  = opts || {};
+    function init (c, i) {
+    	container = c;
+    	input = i;
 
-    function init (canvas) {
-
+    	newGame();
     }
 
 	function newGame () {
-		while (c.firstChild) {
-			c.removeChild(c.firstChild);
-		}
+		container.empty();
 
+		container.typed({
+			strings: GS.newGame
+		});
 	}
-
 
     return {
         init: init
@@ -21,4 +24,9 @@ const Game = ((opts) => {
 
 })();
 
-window.Game = Game;
+$(function () {
+	var $cont = $('#console');
+	var $input = $('#input');
+
+	Game.init($cont, $input);
+});
