@@ -52,6 +52,10 @@ gulp.task('libs', function () {
         .pipe(gulp.dest('./dist/libs/'))
 });
 
+gulp.task('watch', function () {
+    gulp.watch(files.js, ['default']);
+});
+
 gulp.task('compile', ['html']);
 
 gulp.task('default', ['compile', 'libs', 'js']);
