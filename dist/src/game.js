@@ -8,6 +8,7 @@ var Game = ((function() {
   var $container,
       $input,
       Mastermind;
+  var globalActions = ['new game', 'help', 'status'];
   function init(c, i) {
     $container = c;
     $input = i;
@@ -26,16 +27,32 @@ var Game = ((function() {
   }
   function onInput(event) {
     if (event.keyCode === 13) {
-      var msg = $input.val();
+      var msg = $input.val().trim();
       if (!msg)
         return;
       addMessage(msg, 'me', -100);
+      parseInput(msg);
       $input.val('');
+    }
+  }
+  function parseInput(input) {
+    var text = input.toLowerCase();
+    if (globalActions.indexOf(text) > -1) {
+      switch (text) {
+        case 'new game':
+          break;
+        case 'help':
+          addMessage(GS.helpText);
+          break;
+        case 'status':
+          addMessage(Mastermind.checkStatus());
+          break;
+      }
     }
   }
   function addMessage(message, modifier, speed) {
     var $node = $('<span class="message" />');
-    var ts = speed || 0;
+    var ts = speed || -10;
     if (modifier)
       $node.addClass(modifier);
     $container.append($node);
@@ -2926,7 +2943,11 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__default = {newGame: 'You awaken in a dark room.  Your leg is chained to a wall.  Attached to the chains are two wires, one leading to what appears to be a large car battery, and the other leading off to a panel with four (4) empty circles.  Next to the panel, you spot a stack of multi-colored circular objects.  What would you like to do?'};
+var $__default = {
+  newGame: 'You awaken in a dark room, hungover.<br>Your leg is chained to a wall.<br>Attached to the chains are two thick wires, one leading to what appears to be a large car <em>battery</em>, and the other leading to a <em>board</em> with four (4) empty circles.<br>Next to the board, you spot a stack of multi-colored circular <em>disks</em>.<br>Perhaps you would like to take a closer <em>look at</em> something?',
+  helpText: 'Having some trouble?  Try a couple of these commands: <em>status</em>, <em>look at</em> [something], or, if you\'re really bad, try starting a <em>new game</em>.',
+  noneGuessed: 'Well, as mentioned, it appears you\'re attached to some kind of battery, so that\'s never good.  Why don\'t you take a closer <em>look at</em> something, or perhaps ask for <em>help</em>.'
+};
 
 
 //# sourceURL=/Users/jason/dev/textermind/src/GameStrings.js
@@ -2938,19 +2959,29 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var colors = ['red', 'green', 'blue', 'yellow'];
-function MasterMind(opts) {
+var $__GameStrings__;
+var GS = ($__GameStrings__ = require("./GameStrings"), $__GameStrings__ && $__GameStrings__.__esModule && $__GameStrings__ || {default: $__GameStrings__}).default;
+function Mastermind(opts) {
   var options = opts || {};
-  this.noCols = options.noColumns || 4;
+  this.colors = ['red', 'green', 'blue', 'yellow', 'purple', 'white', 'black'];
+  this.difficulty = options.difficulty || 4;
   this.solution = [];
-  for (var i = 0; i < this.noCols; i++) {
-    this.solution.push(colors[Math.floor(Math.random() * this.noCols)]);
+  this.gameState = 0;
+  for (var i = 0; i < this.difficulty; i++) {
+    this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
   }
   console.log(this.solution);
 }
-var $__default = MasterMind;
+var $__default = Mastermind;
 ;
+Mastermind.prototype.makeGuess = function(guess) {};
+Mastermind.prototype.checkStatus = function() {
+  switch (this.gameState) {
+    case 0:
+      return GS.noneGuessed;
+  }
+};
 
 
 //# sourceURL=/Users/jason/dev/textermind/src/Mastermind.js
-},{}]},{},[1,4]);
+},{"./GameStrings":5}]},{},[1,4]);

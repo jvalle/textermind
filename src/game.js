@@ -3,6 +3,7 @@ import MM from './Mastermind';
 
 const Game = (() => {
 	var $container, $input, Mastermind;
+	var globalActions = ['new game', 'help', 'status'];
 
     function init (c, i) {
     	$container = c;
@@ -30,21 +31,38 @@ const Game = (() => {
 
 	function onInput (event) {
 		if (event.keyCode === 13) {
-			var msg = $input.val();
+			var msg = $input.val().trim();
 
 			if (!msg) return;
 
 			addMessage(msg, 'me', -100);
 
-			// parse message here
+			parseInput(msg);
 
 			$input.val('');
 		}
 	}
 
+	function parseInput (input) {
+		var text = input.toLowerCase();
+
+		if (globalActions.indexOf(text) > -1) {
+			switch (text) {
+				case 'new game':
+					break;
+				case 'help':
+					addMessage(GS.helpText);
+					break;
+				case 'status':
+					addMessage(Mastermind.checkStatus());
+					break;
+			}
+		}
+	}
+
 	function addMessage (message, modifier, speed) {
 		var $node = $('<span class="message" />');
-		var ts = speed || 0;
+		var ts = speed || -10;
 
 		if (modifier) $node.addClass(modifier);
 
