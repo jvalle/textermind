@@ -92,10 +92,46 @@ const Game = (() => {
 			}
 		} else if (text.indexOf('place') > -1) {
 			var guess = text.replace('place', '').trim();
-			addMessage(Mastermind.makeGuess(guess));
+			handleGuessing(guess);
 		} else {
 			addMessage(GS.unrecognizedCommand);
 		}
+	}
+
+	function handleGuessing (guess) {
+		addMessage(Mastermind.makeGuess(guess));
+
+		var guesses = guess.split(' '); //todo make sure its an actual guess, and not just words
+		if (guesses.length !== 4) {
+			addMessage(GS.placeFour);
+			return;
+		}
+
+		var response = Mastermind.makeGuess(guesses);
+		var message;
+
+		if (response.rightPosition === 4) {
+			message = GS.youWin;
+		} else {
+			if (Mastermind.health < 1) {
+				message = GS.gameOver;
+			}
+			switch (response.rightPosition) {
+				case 1:
+					message = GS.guessedOne + ' In addition, you guessed ' + response.rightColor + ' colors correctly. Your health has been reduced to <span class="red">'
+							+ Mastermind.health + '</span> from the shock.';
+				case 2:
+					message = GS.guessedTwo + ' In addition, you guessed ' + response.rightColor + ' colors correctly. Your health has been reduced to <span class="red">'
+							+ Mastermind.health + '</span> from the shock.';
+				case 3:
+					message = [GS.guessedThree[0], GS.guessedThree[1] + ' In addition, you guessed ' + response.rightColor + ' colors correctly. Your health has been reduced to <span class="red">'
+							+ Mastermind.health + '</span> from the shock.'];
+				default:
+					message = 'The battery lights up and sparks fly as you\'re shocked so violently that your hair burns and you take a full piss into your pants. You managed to get none in the correct
+							 position. In addition, you guessed ' + response.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + Mastermind.health + '</span> from the shock.';
+			}
+		}
+		addMessage(message);
 	}
 
 	function addMessage (message, modifier, speed) {

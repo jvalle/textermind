@@ -7,18 +7,15 @@ export default function Mastermind (opts) {
 	this.solution = [];
 	this.rightPosition = 0;
 	this.rightColor = 0;
-	this.health = 100;
+	this.health = 100; // todo i dont think health should be handled here
 
 	for (var i = 0; i < this.difficulty; i++) {
 		this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
 	}
 };
 
-Mastermind.prototype.makeGuess = function (guess) {
-	var guesses = guess.split(' ');
+Mastermind.prototype.makeGuess = function (guesses) {
 	var solutionCopy = this.solution.slice();
-
-	if (guesses.length !== 4) return GS.placeFour;
 
 	this.rightPosition = 0;
 	this.rightColor = 0;
@@ -46,23 +43,10 @@ Mastermind.prototype.makeGuess = function (guess) {
 		}
 	}
 
-	if (this.rightPosition === 4) {
-		return GS.youWin;
-	} else {
-		if (this.health < 1) {
-			return GS.gameOver;
-		}
-		switch (this.rightPosition) {
-			case 1:
-				return GS.guessedOne + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
-			case 2:
-				return GS.guessedTwo + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
-			case 3:
-				return [GS.guessedThree[0], GS.guessedThree[1] + ' In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.'];
-			default:
-				return 'The battery lights up and sparks fly as you\'re shocked so violently that your hair burns and you take a full piss into your pants. You managed to get none in the correct position. In addition, you guessed ' + this.rightColor + ' colors correctly. Your health has been reduced to <span class="red">' + this.health + '</span> from the shock.';
-		}
-	}
+	return {
+		correctPosition : this.rightPosition,
+		correctColors   : this.rightColor
+	};
 };
 
 Mastermind.prototype.checkStatus = function () {
