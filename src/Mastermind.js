@@ -12,7 +12,6 @@ export default function Mastermind (opts) {
 	for (var i = 0; i < this.difficulty; i++) {
 		this.solution.push(this.colors[Math.floor(Math.random() * this.colors.length)]);
 	}
-	window.alert(this.solution);
 };
 
 Mastermind.prototype.makeGuess = function (guess) {
