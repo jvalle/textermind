@@ -66,7 +66,8 @@ const Game = (() => {
 					break;
 				case 'look around':
 				case 'status':
-					addMessage(Mastermind.checkStatus() + ' Your Health is <span class="red">' + Mastermind.health + '</span>.');
+					var msg = Mastermind.checkStatus() + ' Your Health is <span class="red">' + Mastermind.health + '</span>.';
+					addMessage(msg);
 					break;
 			}
 		} else if (text.indexOf('look at') > -1) {
